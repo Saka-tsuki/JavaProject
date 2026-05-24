@@ -5,7 +5,7 @@ import com.neuedu.tms.service.TUserService;
 
 import java.util.List;
 
-public class AdminSearchMenu {
+public class AdminSearchMenu implements IMenu{
     public void execute() {
         TUserService us=new TUserService();
         //list

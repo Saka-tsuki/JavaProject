@@ -12,7 +12,7 @@ import java.io.*;
 
 
 public class TUserDao {
-    // 数据文件路径,做成常量
+    // 数据文件路径,做成常量。
     public static final File FILE_NAME = new File("data\\users.json");
     //实例化好一个json转换工具
     private final ObjectMapper om = new ObjectMapper();
@@ -80,9 +80,9 @@ public class TUserDao {
 
             // 普通for循环遍历查找
             for (int i = 0; i < userList.size(); i++) {//循环下标
-                TUser user = userList.get(i);//获取下标为i的对象{}
+                TUser user = userList.get(i);//获取下标为i的原对象{}
                 if (user.getId().equals(newUser.getId())) {
-                    userList.set(i, newUser);//替换成新对象
+                    userList.set(i, newUser);//替换成新对象，关键代码
                     isUpdate = true;//标记有需要修改的
                     break;
                 }
@@ -90,7 +90,7 @@ public class TUserDao {
 
             // 找到用户则写入文件保存修改
             if (isUpdate) {
-                om.writeValue(FILE_NAME, userList);//关键代码：整体替换
+                om.writeValue(FILE_NAME, userList);//关键代码，整体替换
             }
             return isUpdate;
         } catch (IOException e) {
@@ -103,16 +103,16 @@ public class TUserDao {
      * @param id 要删除的用户ID
      * @return true删除成功 false用户不存在
      */
-    public boolean deleteById(long id) {
+    public boolean deleteById(int id) {
         try {
-            List<TUser> userList = findAll();
+            List<TUser> userList = findAll();//全量读出
             boolean isDelete = false;
 
             // 普通for循环查找并删除
             for (int i = 0; i < userList.size(); i++) {
-                TUser user = userList.get(i);
+                TUser user = userList.get(i);//通过索引获取对象
                 if (user.getId() == id) {
-                    userList.remove(i);
+                    userList.remove(i);//移除指定id的对象
                     isDelete = true;
                     break;
                 }
@@ -120,7 +120,7 @@ public class TUserDao {
 
             // 如果删除成功，重新写入文件
             if (isDelete) {
-                om.writeValue(FILE_NAME, userList);
+                om.writeValue(FILE_NAME, userList);//全量写入文件
             }
             return isDelete;
         } catch (IOException e) {
@@ -139,20 +139,18 @@ public class TUserDao {
                 // 没有找到返回 null
                 .orElse(null);
     }
-    /**
-     * 根据ID查询用户
-     * @param id 用户ID
-     * @return 找到的用户对象，未找到返回null
-     */
-    public TUser findById(Integer id) {
+
+    public TUser findByAdminByNameAndPassword(String userName, String password,int userType) {
         List<TUser> userList = findAll();
-        
-        for (TUser user : userList) {
-            if (user.getId().equals(id)) {
-                return user;
+
+        // 遍历所有用户，找到用户名相同的
+        for (TUser db_user : userList) {
+            if (db_user.getUserName().equals(userName)&&db_user.getPassword().equals(password)&&db_user.getUserType()==userType) {
+                return db_user;
             }
         }
-        
+
+        // 没找到返回 null
         return null;
     }
 }

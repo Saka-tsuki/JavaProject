@@ -16,17 +16,20 @@ public class PersistentIdGenerator {
     private int currentId;
     private final ReentrantLock lock = new ReentrantLock();
 
-    //2.在类内部先实例化一个出来
+    // 2.在类的内部先实例化一个出来
     private static final PersistentIdGenerator INSTANCE = new PersistentIdGenerator();
     //1.将构造方法变成私有的
     private PersistentIdGenerator() {
+
         this.currentId = loadLastIdFromFile();
     }
-    //3.做一个公有方法，供外部调用
+    //3.做一个公有的方法，供外部调用
     public static PersistentIdGenerator getInstance() {
+
         return INSTANCE;
     }
 
+    //4.
     public int nextId() {
         lock.lock();
         try {
@@ -36,7 +39,7 @@ public class PersistentIdGenerator {
         } finally {
             lock.unlock();
         }
-    }
+    }//防止多人同时访问造成生成重复的问题
 
     /**
      * 安全加载ID（修复空文件、格式错误）

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class TUserService {
-	//DAO层专注持久化
+    //DAO层专注持久化
     TUserDao userDao=new TUserDao();
 
     public TUserDao getUserDao() {
@@ -27,8 +27,8 @@ public class TUserService {
     public String addUser(TUser user){
         System.out.println("传过来的要添加的用户"+user);
         System.out.println("稍候将存到文件中");
-        //1.需要验证用户名、密码、用户类型是否是合法的(后续常用完成)
-        //2.需要验证用户名是否重复(后续常用完成)
+        //1.需要验证用户名、密码、用户类型是否是合法的（后续常用完成）
+        //2.需要验证用户名是否重复（后续常用完成）
         //3.如何验证通过，调用 dao层进行存储
         String result= null;
         try {
@@ -45,21 +45,32 @@ public class TUserService {
         List<TUser> list=userDao.findAll();
         return list;
     }
-    
+
     public TUser findByUserName(String inputUserName) {
-    	return userDao.findByUserName(inputUserName);
+        return userDao.findByUserName(inputUserName);
     }
-    public TUser findById(Integer id) {
-        return userDao.findById(id);
-    }
-    
+
     public String updateUser(TUser user) {
-    	//@TODO 验证
-    	boolean db_result= userDao.updateUser(user);
-    	if(db_result) {
-    		return "修改成功";
-    	}else {
-    		return "修改失败";
-    	}
+        //@TODO 验证
+        boolean db_result= userDao.updateUser(user);
+        if(db_result){
+            return "修改成功";
+        }else{
+            return "修改失败";
+        }
+    }
+
+    public String delById(int id) {
+        boolean db_result=userDao.deleteById(id);
+        if(db_result){
+            return "删除成功";
+        }else{
+            return "删除失败";
+        }
+    }
+
+    public TUser findByAdminByNameAndPassword(String userName, String password) {
+
+        return userDao.findByAdminByNameAndPassword(userName,password,1);
     }
 }

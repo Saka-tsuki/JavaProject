@@ -8,8 +8,9 @@ import com.neuedu.tms.service.TUserService;
 public class AdminUpdateMenu implements IMenu {
 	@Override
 	public void execute(){
-		//添加所有的内容都是全新的，ID是系统生成的
-		//修改是修改已有的，ID是已存的
+		//思考：修改与添加的区别
+        //添加所有的内容都是全新的。ID是系统生成的
+        //修改是修改已有的。id是已经存的
 		Scanner sc=new Scanner(System.in);
 		System.out.println("请输入id");
 		int id=sc.nextInt();
